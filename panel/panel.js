@@ -1469,7 +1469,12 @@
     board.addEventListener('click', function (ev) {
       var btn = ev.target.closest('[data-open]');
       if (!btn) return;
-      openToolModal(btn.getAttribute('data-open'));
+      var kind = btn.getAttribute('data-open');
+      if (CLUSTER_ONLY[kind]) {
+        flash('note', CLUSTER_ONLY[kind] + ' se configura desde el Nitro Cluster (Componentes MCP · capacidades del plan).');
+        return;
+      }
+      openToolModal(kind);
     });
     measureEnterpriseThreads();
     if (!bindEnterpriseBoard.boundResize) {
@@ -1478,6 +1483,25 @@
         measureEnterpriseThreads();
       });
     }
+  }
+
+  /** Componentes que solo administra el Nitro Cluster (no se editan desde este panel). */
+  var CLUSTER_ONLY = {
+    skill: 'El skill del agente',
+    capabilities: 'Las capacidades del agente',
+    whatsapp: 'WhatsApp Cloud API (WABA)',
+    dropbox: 'Dropbox'
+  };
+
+  function clusterOnlyNoteHtml() {
+    return (
+      '<section class="tg-panel tg-board__cluster-note">' +
+      '<h2>Configuración del agente</h2>' +
+      '<p class="tg-muted">El contexto del bot (skill y capacidades), WhatsApp Cloud API, el tutorial de Meta y Dropbox ' +
+      'se configuran desde el <strong>Nitro Cluster</strong>, en Componentes MCP según las capacidades de tu plan. ' +
+      'Pide los cambios al administrador del cluster.</p>' +
+      '</section>'
+    );
   }
 
   function wrapPane(id, html) {
@@ -1494,7 +1518,7 @@
       ['ai', 'Consumo de IA']
     ];
     if (geoUsageHtml(c)) items.push(['geo', 'Consumo Geoapify']);
-    items.push(['chats', 'Conversaciones'], ['ctx', 'Contexto del bot']);
+    items.push(['chats', 'Conversaciones']);
     return (
       '<nav class="tg-co__menu" aria-label="Secciones del panel">' +
       items.map(function (item) {
@@ -1553,51 +1577,7 @@
       wrapPane('ai', aiUsageHtml(c.aiUsage)) +
       wrapPane('geo', geoUsageHtml(c)) +
       wrapPane('chats', chatsSectionHtml()) +
-      wrapPane('ctx', '<section class="tg-panel tg-board__ctx">' +
-      '<div class="tg-panel__head"><div><h2>Contexto del bot</h2>' +
-      '<p class="tg-ctx__lead">Skill, capacidades y enlaces que usa el agente para responder.</p></div>' +
-      '<button type="button" class="tg-btn sm" id="tg-save-ctx">Guardar contexto</button></div>' +
-      '<div class="tg-ctx__row">' +
-      '<div class="tg-ctx__block">' +
-      '<div class="tg-panel__head tg-panel__head--sub"><h3>Skill negocio</h3><span class="tg-chip">markdown</span></div>' +
-      skillLearnHtml() +
-      '<textarea id="tg-skill" class="tg-area tg-area--fill"></textarea>' +
-      '<div class="tg-float-kit">' +
-      '<div class="tg-panel__head tg-panel__head--sub"><h3>Botón flotante</h3>' +
-      '<button type="button" class="tg-btn ghost sm" id="tg-copy-float">Copiar HTML</button></div>' +
-      '<p class="tg-muted">HTML y CSS del botón de WhatsApp de ' + esc(c.name || 'esta empresa') + '. Pégalo en la página.</p>' +
-      '<textarea id="tg-float-html" class="tg-area tg-float-kit__code" rows="8" readonly></textarea></div></div>' +
-      '<div class="tg-ctx__block">' +
-      '<div class="tg-panel__head tg-panel__head--sub"><h3>Capacidades de producto</h3>' +
-      '<span class="tg-chip">product-capabilities.json</span></div>' +
-      '<textarea id="tg-caps" class="tg-area tg-area--fill" placeholder=\'{"capabilities":[]}\'></textarea></div>' +
-      '</div>' +
-      '<div class="tg-ctx__block tg-ctx__block--links">' +
-      '<div class="tg-panel__head tg-panel__head--sub"><h3>MCP · Link de pago</h3></div>' +
-      '<div class="tg-grid tg-grid--links">' +
-      '<label class="tg-field"><span>MCP URL (opcional)</span><input id="tg-mcp" placeholder="https://…/mcp" /></label>' +
-      '<label class="tg-field"><span>Link de pago</span><input id="tg-pay" placeholder="https://checkout…" /></label>' +
-      '</div></div></section>') +
-      (isEnterprise() ? '' : '<section class="tg-panel tg-board__tutorial tg-tutorial">' +
-      '<h2>Tutorial Meta Cloud API</h2>' +
-      '<p class="tg-muted tg-tutorial__lead">Tu empresa configura Meta; el cluster es el <strong>webhook</strong> que recibe y responde.</p>' +
-      '<ol class="tg-tutorial__steps">' +
-      '<li><strong>App Meta</strong>' +
-      '<a href="https://developers.facebook.com/apps/" target="_blank" rel="noopener">My Apps</a> → WhatsApp · ' +
-      '<a href="https://developers.facebook.com/docs/whatsapp/cloud-api/get-started/" target="_blank" rel="noopener">Get started</a></li>' +
-      '<li><strong>Número</strong>Phone Number ID + WABA · ' +
-      '<a href="https://developers.facebook.com/docs/whatsapp/cloud-api/phone-numbers/" target="_blank" rel="noopener">docs</a></li>' +
-      '<li><strong>Token permanente</strong>' +
-      '<a href="https://business.facebook.com/settings/system-users" target="_blank" rel="noopener">System Users</a></li>' +
-      '<li><strong>Datos abajo</strong>App ID, Secret, WABA, Phone ID, token, Verify Token</li>' +
-      '<li><strong>Webhook</strong>Callback = <code>' + esc((conn && conn.webhookUrl) || '…/wa/webhook') +
-      '</code> · suscribe <code>messages</code></li>' +
-      '<li><strong>Tarifas Meta</strong>' +
-      '<a href="https://developers.facebook.com/docs/whatsapp/pricing" target="_blank" rel="noopener">precios oficiales</a></li>' +
-      '</ol>' +
-      '</section>' +
-      waSectionHtml(c, conn) +
-      dropboxSectionHtml(c)) +
+      clusterOnlyNoteHtml() +
       /* Más adelante: Orquestador · RUNBOOK (OpenCode / Anomaly)
       '<section class="tg-panel tg-board__orch"><h2>RUNBOOK</h2>' +
       '<textarea class="tg-area tg-area--fill" id="tg-runbook" readonly></textarea></section>' +
@@ -1605,18 +1585,8 @@
       '</div>';
 
     // textareas por valor, no por atributo, para no romper con < y &
-    $('#tg-skill').value = (c.skills && c.skills[0] && c.skills[0].content) || '';
-    var floatBox = $('#tg-float-html');
-    if (floatBox) floatBox.value = floatPack(c, conn).html;
-    $('#tg-caps').value = JSON.stringify(
-      c.productCapabilities && typeof c.productCapabilities === 'object'
-        ? c.productCapabilities
-        : { capabilities: [] },
-      null,
-      2
-    );
-    $('#tg-mcp').value = (c.mcpServers && c.mcpServers[0] && c.mcpServers[0].url) || '';
-    $('#tg-pay').value = (c.paymentLinks && c.paymentLinks[0] && c.paymentLinks[0].url) || '';
+    /* Skill, capacidades, WhatsApp y Dropbox se gestionan solo desde el Nitro Cluster:
+       este panel ya no pinta esos campos. */
     // Más adelante: $('#tg-flows') / $('#tg-runbook')
 
     $('#tg-logout').addEventListener('click', function () {
@@ -1628,7 +1598,6 @@
       renderGate('');
     });
     $('#tg-save-brand').addEventListener('click', saveBrand);
-    $('#tg-save-ctx').addEventListener('click', saveContext);
     var waBtn = $('#tg-save-wa');
     if (waBtn) waBtn.addEventListener('click', saveWa);
     var dbxBtn = $('#tg-save-dropbox');
