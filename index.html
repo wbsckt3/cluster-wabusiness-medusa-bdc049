@@ -1,347 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--
+  Landing de empresa del Nitro Cluster (P2L).
+  La crea el cluster al dar de alta la empresa. Es tuya: edítala en este repo
+  (textos, colores, secciones). Mantén la etiqueta <script src=".../p2l-wa.js">:
+  con data-company trae el número de WhatsApp, la marca y las áreas del panel.
+-->
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Explee para P2L: ICP de operadores de mototaxi, tuk-tuk y movilidad local. Cómo probar leads B2B con un agente de outreach." data-i18n-meta="explee.meta_description" />
-  <meta name="theme-color" content="#0d9488" />
-  <title>Medusa · P2L</title>
-  <link rel="icon" href="assets/tuki-driver-icon.png" type="image/png" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Medusa · Atención por WhatsApp</title>
+  <meta name="description" content="Medusa: escríbenos por WhatsApp y te responde nuestro asistente." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --teal-50: #f0fdfa;
-      --teal-100: #ccfbf1;
-      --teal-600: #0d9488;
-      --teal-700: #0f766e;
-      --teal-800: #115e59;
       --ink: #0f172a;
-      --muted: #64748b;
+      --muted: #475569;
       --line: #e2e8f0;
-      --white: #ffffff;
-      --radius: 16px;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --brand: #0f766e;
+      --brand-soft: #e6f4f1;
+      --wa: #25d366;
     }
-    *, *::before, *::after { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
-      font-family: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(1200px 480px at 10% -10%, rgba(13, 148, 136, 0.14), transparent 55%),
-        radial-gradient(900px 420px at 100% 0%, rgba(15, 118, 110, 0.1), transparent 50%),
-        var(--white);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+      background: radial-gradient(1200px 500px at 85% -10%, #dff5ee 0%, transparent 60%), var(--bg);
+      line-height: 1.55;
+      min-height: 100vh;
     }
-    a { color: var(--teal-700); }
-    .wrap {
-      width: min(760px, calc(100% - 32px));
-      margin: 0 auto;
-      padding: 40px 0 72px;
-    }
-    .top {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-    .top__actions {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 10px;
-    }
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-      color: var(--ink);
-      font-weight: 800;
-    }
-    .brand img { height: 40px; width: auto; display: block; }
-    .qa-lang-switch {
-      display: inline-flex;
-      gap: 4px;
-      padding: 3px;
-      border-radius: 10px;
-      background: #f1f5f9;
-      border: 1px solid #e2e8f0;
-    }
-    .qa-lang-switch__btn {
-      min-width: 2.25rem;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 8px;
-      background: transparent;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: #64748b;
-      cursor: pointer;
-    }
-    .qa-lang-switch__btn--active {
-      background: #0d9488;
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(13, 148, 136, 0.35);
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 22px 0; }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 1.15rem; }
+    .brand__mark {
+      width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center;
+      background: var(--brand); color: #fff; font-weight: 800; font-size: 1.2rem;
     }
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 12px 20px;
-      border-radius: 999px;
-      font-weight: 700;
-      text-decoration: none;
-      background: linear-gradient(135deg, var(--teal-600), var(--teal-800));
-      color: #fff;
-      box-shadow: 0 10px 24px rgba(13, 148, 136, 0.28);
+      display: inline-flex; align-items: center; gap: 10px; border: 0; cursor: pointer;
+      font: inherit; font-weight: 700; text-decoration: none; border-radius: 999px;
+      padding: 12px 22px; transition: transform .15s ease, box-shadow .15s ease;
     }
-    .btn:hover { filter: brightness(1.05); }
-    .btn--ghost {
-      background: #fff;
-      color: var(--teal-800);
-      border: 1px solid var(--line);
-      box-shadow: none;
+    .btn:hover { transform: translateY(-1px); }
+    .btn--wa { background: var(--wa); color: #fff; box-shadow: 0 10px 24px rgba(37, 211, 102, .28); }
+    .btn--ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    .btn svg { width: 20px; height: 20px; }
+    .hero { padding: 56px 0 40px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: center; }
+    .kicker { color: var(--brand); font-weight: 700; font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; }
+    h1 { font-size: clamp(2rem, 4.6vw, 3.2rem); line-height: 1.08; letter-spacing: -.02em; margin: 10px 0 16px; }
+    .lead { color: var(--muted); font-size: 1.1rem; max-width: 34em; }
+    .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .chat {
+      background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 18px;
+      box-shadow: 0 24px 48px rgba(15, 23, 42, .08);
     }
-    article {
-      background: rgba(255, 255, 255, 0.92);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 28px 28px 36px;
-      box-shadow: 0 18px 48px rgba(15, 23, 42, 0.06);
-    }
-    h1 {
-      margin: 0 0 8px;
-      font-size: clamp(1.6rem, 3vw, 2.1rem);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-    }
-    .lead {
-      margin: 0 0 22px;
-      color: var(--muted);
-      font-size: 1.02rem;
-    }
-    h2 {
-      margin: 28px 0 10px;
-      font-size: 1.15rem;
-      color: var(--teal-800);
-    }
-    p { margin: 0 0 12px; }
-    ul, ol { margin: 0 0 14px; padding-left: 1.2rem; }
-    li { margin: 0 0 6px; }
-    blockquote {
-      margin: 16px 0;
-      padding: 14px 16px;
-      border-left: 4px solid var(--teal-600);
-      background: var(--teal-50);
-      border-radius: 0 12px 12px 0;
-      color: var(--ink);
-    }
-    blockquote p { margin: 0; white-space: pre-wrap; }
-    .icp { font-size: 0.95rem; line-height: 1.55; }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0 18px;
-      font-size: 0.95rem;
-    }
-    th, td {
-      border: 1px solid var(--line);
-      padding: 10px 12px;
-      text-align: left;
-      vertical-align: top;
-    }
-    th { background: var(--teal-50); color: var(--teal-800); }
-    .cta-box {
-      margin-top: 28px;
-      padding: 20px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--teal-50), #fff);
-      border: 1px solid var(--teal-100);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-    }
-    .cta-box p { margin: 0; max-width: 42ch; color: var(--muted); }
-    .cta-box strong { color: var(--ink); display: block; margin-bottom: 4px; }
-    .foot {
-      margin-top: 22px;
-      font-size: 0.88rem;
-      color: var(--muted);
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
+    .chat__head { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--line); font-weight: 700; }
+    .chat__dot { width: 10px; height: 10px; border-radius: 50%; background: var(--wa); box-shadow: 0 0 0 4px rgba(37, 211, 102, .2); }
+    .bubble { margin-top: 12px; padding: 10px 14px; border-radius: 14px; font-size: .95rem; max-width: 88%; }
+    .bubble--in { background: #f1f5f9; }
+    .bubble--out { background: #dcf8c6; margin-left: auto; }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 12px 0 56px; }
+    .feature { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 20px; }
+    .feature__icon { width: 40px; height: 40px; border-radius: 12px; background: var(--brand-soft); color: var(--brand); display: grid; place-items: center; margin-bottom: 12px; }
+    .feature__icon svg { width: 22px; height: 22px; }
+    .feature h2 { font-size: 1.05rem; margin-bottom: 6px; }
+    .feature p { color: var(--muted); font-size: .95rem; }
+    footer { border-top: 1px solid var(--line); padding: 22px 0 90px; color: var(--muted); font-size: .88rem; }
+    footer a { color: var(--brand); }
+    @media (max-width: 820px) {
+      .hero { grid-template-columns: 1fr; padding-top: 28px; }
+      .features { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <div class="wrap">
-    <div class="top">
-      <a class="brand" href="./" data-i18n-aria="nav.home" aria-label="Tuk Tuk inicio">
-        <img src="assets/tuki-logo.png" alt="Tuk Tuk" />
-        <span data-i18n="explee.brand">Medusa</span>
-      </a>
-      <div class="top__actions">
-        <div class="qa-lang-switch" role="group" data-i18n-aria="nav.language" aria-label="Idioma">
-          <button type="button" class="qa-lang-switch__btn qa-lang-switch__btn--active" data-set-locale="es" aria-pressed="true">ES</button>
-          <button type="button" class="qa-lang-switch__btn" data-set-locale="en" aria-pressed="false">EN</button>
-        </div>
-        <a
-          class="btn"
-          href="https://explee.com/?twclid=27gjjwwwz0ya7c0fwe2zkcz0t1&_ref=tw-ag353-c777&utm_source=referral&utm_campaign=tw-ag353-c777"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-i18n="explee.open_agent"
-        >Abrir agente Explee</a>
-      </div>
-    </div>
+    <header>
+      <div class="brand"><span class="brand__mark" aria-hidden="true">M</span>Medusa</div>
+      <button class="btn btn--ghost" type="button" onclick="window.P2LWA && window.P2LWA.open()">Contáctanos</button>
+    </header>
 
-    <article>
-      <h1 data-i18n="explee.title">Explee ICP Leads</h1>
-      <p class="lead" data-i18n="explee.lead">Notas para usar Explee en la adquisición B2B de P2L: qué cliente buscar, cómo no vender “otra Uber”, y cómo medir una prueba de $30.</p>
-
-      <p data-i18n="explee.p1">Sí. Para P2L me parece bastante más interesante que Apollo/Geoapify para el tipo de adquisición de clientes que veníamos buscando, pero con una condición importante: hay que definir muy bien qué cliente queremos que Explee busque.</p>
-      <p data-i18n="explee.p2">Lo revisé directamente. Explee actualmente funciona como un agente de GTM: analiza tu web, intenta entender qué vendes y quién debería comprarte, encuentra prospectos, personaliza emails, gestiona respuestas y puede agendar reuniones. Afirma trabajar sobre una base de 105 millones de empresas y 536 millones de perfiles, y además permite segmentación por geografía.</p>
-
-      <h2 data-i18n="explee.h_fit">Para P2L veo este encaje</h2>
-      <p data-i18n="explee.p3">Yo no le diría simplemente:</p>
-      <blockquote><p data-i18n="explee.q_generic">Busca empresas de transporte.</p></blockquote>
-      <p data-i18n="explee.p4">Eso probablemente produciría demasiados resultados genéricos.</p>
-      <p data-i18n="explee.p5">Le daría un ICP mucho más específico, por ejemplo:</p>
-      <blockquote>
-        <p class="icp" data-i18n="explee.icp">Companies operating motorcycle taxis, tuk-tuks, three-wheelers, motorcycle transportation, local mobility, passenger transport or informal/independent driver networks in emerging markets, especially Latin America, Africa, Asia and Southeast Asia. Find founders, owners, CEOs and operations managers who could deploy a white-label mobility platform to manage drivers, passengers, geofenced service areas, ride requests, routing, real-time presence and payments.</p>
-      </blockquote>
-
-      <h2 data-i18n="explee.h_market">P2L tiene un mercado global muy particular</h2>
-      <p data-i18n="explee.p6">No estás buscando solamente “empresas de transporte”.</p>
-      <p data-i18n="explee.p7">Estás buscando operadores de movilidad que todavía no tienen una infraestructura tecnológica propia.</p>
-      <p data-i18n="explee.p8">Por ejemplo:</p>
-      <ul>
-        <li data-i18n="explee.l1">operadores de mototaxi</li>
-        <li data-i18n="explee.l2">empresas de tuk-tuk</li>
-        <li data-i18n="explee.l3">asociaciones de mototaxistas</li>
-        <li data-i18n="explee.l4">operadores de transporte rural</li>
-        <li data-i18n="explee.l5">empresas de motorcycle taxi</li>
-        <li data-i18n="explee.l6">plataformas locales de movilidad</li>
-        <li data-i18n="explee.l7">cooperativas de conductores</li>
-        <li data-i18n="explee.l8">empresas de transporte de pasajeros en ciudades pequeñas</li>
-        <li data-i18n="explee.l9">operadores de three-wheelers</li>
-        <li data-i18n="explee.l10">empresas que trabajan con flotas de conductores independientes</li>
-      </ul>
-      <p data-i18n="explee.p9">Y geográficamente yo probaría:</p>
-      <p><strong data-i18n="explee.geo">Colombia → Latinoamérica → India → África → Sudeste Asiático.</strong></p>
-      <p data-i18n="explee.p10">Eso es mucho más parecido al mercado natural de P2L.</p>
-
-      <h2 data-i18n="explee.h_like">Hay otra cosa que me gusta mucho de Explee</h2>
-      <p data-i18n="explee.p11">No tienes que montar inicialmente toda una infraestructura de Apollo + email + calentamiento de dominios.</p>
-      <p data-i18n="explee.p12">Explee dice que utiliza sus propios buzones pre-calentados y que el outreach no sale desde tu propio dominio. También permite revisar la lista y los emails antes de lanzar la campaña.</p>
-      <p data-i18n="explee.p13">Y el modelo de prueba es relativamente barato:</p>
-      <p data-i18n="explee.p14">$30 ≈ 750 emails, según su página actual, con un costo aproximado de $0.04 por email enviado.</p>
-      <p data-i18n="explee.p15">La página incluso muestra campañas donde reportan costos de algunos dólares por lead, aunque obviamente eso es marketing del propio Explee y no debemos asumir que P2L conseguirá esos números.</p>
-
-      <h2 data-i18n="explee.h_diff">Pero yo haría algo diferente con P2L</h2>
-      <p data-i18n="explee.p16">No utilizaría Explee para vender:</p>
-      <blockquote><p data-i18n="explee.q_uber">Tenemos una app tipo Uber.</p></blockquote>
-      <p data-i18n="explee.p17">Eso te mete directamente en una comparación con cientos de plataformas.</p>
-      <p data-i18n="explee.p18">Lo utilizaría para vender una idea mucho más potente:</p>
-      <blockquote><p data-i18n="explee.q_pitch">Turn your local transportation operation into your own mobility platform.</p></blockquote>
-      <p data-i18n="explee.p19">Es decir:</p>
-      <ul>
-        <li data-i18n="explee.l11">P2L no es Uber.</li>
-        <li data-i18n="explee.l12">P2L permite que el operador local tenga su propia plataforma de movilidad.</li>
-      </ul>
-      <p data-i18n="explee.p20">Y aquí tus características técnicas empiezan a tener valor comercial:</p>
-      <p><strong data-i18n="explee.flow">Pasajero → solicitud → conductor → geovalla → ruta → tarifa → chat → presencia → viaje → pago</strong></p>
-      <p data-i18n="explee.p21">sin necesidad de que el operador construya toda esa infraestructura.</p>
-
-      <h2 data-i18n="explee.h_test">Yo haría una prueba de $30</h2>
-      <p data-i18n="explee.p22">Y no intentaría vender nada todavía.</p>
-      <p data-i18n="explee.p23">Haría un experimento científico:</p>
-      <ul>
-        <li data-i18n="explee.c1">Campaña 1 — Colombia: 100–200 prospectos.</li>
-        <li data-i18n="explee.c2">Campaña 2 — Latinoamérica: 200–300.</li>
-        <li data-i18n="explee.c3">Campaña 3 — India: 200–300.</li>
-        <li data-i18n="explee.c4">Campaña 4 — África / Southeast Asia: 200–300.</li>
-      </ul>
-      <p data-i18n="explee.p24">Y mediría:</p>
-      <table>
-        <thead>
-          <tr>
-            <th data-i18n="explee.th_metric">Métrica</th>
-            <th data-i18n="explee.th_why">Lo que queremos saber</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td data-i18n="explee.m1">Empresas encontradas</td><td data-i18n="explee.m1w">¿Explee entiende nuestro ICP?</td></tr>
-          <tr><td data-i18n="explee.m2">Contactos correctos</td><td data-i18n="explee.m2w">¿llega al dueño/CEO/operaciones?</td></tr>
-          <tr><td data-i18n="explee.m3">Emails entregados</td><td data-i18n="explee.m3w">calidad de datos</td></tr>
-          <tr><td data-i18n="explee.m4">Respuestas</td><td data-i18n="explee.m4w">interés real</td></tr>
-          <tr><td data-i18n="explee.m5">Respuestas positivas</td><td data-i18n="explee.m5w">verdadero mercado</td></tr>
-          <tr><td data-i18n="explee.m6">Demos</td><td data-i18n="explee.m6w">capacidad comercial</td></tr>
-          <tr><td data-i18n="explee.m7">Pilotos</td><td data-i18n="explee.m7w">la métrica importante</td></tr>
-        </tbody>
-      </table>
-      <p data-i18n="explee.p25">Porque para P2L 10.000 leads no valen nada si ninguno quiere montar una operación.</p>
-
-      <h2 data-i18n="explee.h_maps">Y aquí hay una oportunidad que me parece incluso más interesante</h2>
-      <p data-i18n="explee.p26">Explee tiene también una base de Google Maps de 218 millones de negocios y segmentos por regiones, incluida Latinoamérica.</p>
-      <p data-i18n="explee.p27">Eso encaja bastante bien con lo que tú estabas buscando cuando hablábamos de Geoapify.</p>
-      <p data-i18n="explee.p28">La diferencia es:</p>
-      <ul>
-        <li data-i18n="explee.d1">Geoapify → “dime qué negocios existen alrededor de X”.</li>
-        <li data-i18n="explee.d2">Explee → “encuentra empresas que potencialmente pueden comprarme y encuentra a la persona a quien venderle”.</li>
-      </ul>
-      <p data-i18n="explee.p29">Para adquisición B2B de P2L, la segunda propuesta es muchísimo más cercana a lo que necesitamos.</p>
-
-      <h2 data-i18n="explee.h_concl">Mi conclusión</h2>
-      <p data-i18n="explee.p30">Sí probaría Explee para P2L.</p>
-      <p data-i18n="explee.p31">Pero no compraría todavía un plan grande.</p>
-      <p data-i18n="explee.p32">Haría primero los $30 de prueba y utilizaría tuk-tuk.co como fuente de contexto para que el agente entienda el producto. La propia plataforma permite comenzar simplemente introduciendo el sitio web y construir la lista antes de ejecutar el outreach.</p>
-      <p data-i18n="explee.p33">Y hay algo que yo haría contigo antes de lanzar la primera campaña:</p>
-      <p data-i18n="explee.p34">diseñar el ICP exacto de P2L para Explee, incluyendo países, tipos de empresas, tamaño de flota, palabras clave, cargo del decisor y, sobre todo, el mensaje comercial que debería recibir el operador de mototaxi/tuk-tuk.</p>
-      <p data-i18n="explee.p35">Eso puede ser mucho más importante que la herramienta misma.</p>
-
-      <div class="cta-box">
-        <p>
-          <strong data-i18n="explee.cta_title">Abrir el agente Explee</strong>
-          <span data-i18n="explee.cta_text">Empieza con el sitio de producto y el ICP de operadores de movilidad local.</span>
+    <section class="hero">
+      <div>
+        <p class="kicker">Atención por WhatsApp</p>
+        <h1>Habla con Medusa cuando lo necesites</h1>
+        <p class="lead">
+          Escríbenos por WhatsApp: nuestro asistente responde al momento, te orienta con el área que corresponde
+          y, si hace falta, te pasa con una persona del equipo.
         </p>
-        <a
-          class="btn"
-          href="https://explee.com/?twclid=27gjjwwwz0ya7c0fwe2zkcz0t1&_ref=tw-ag353-c777&utm_source=referral&utm_campaign=tw-ag353-c777"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-i18n="explee.cta_btn"
-        >Ir a Explee</a>
+        <div class="cta">
+          <button class="btn btn--wa" type="button" onclick="window.P2LWA && window.P2LWA.open()">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.15 6.4 2.15 11.83c0 1.74.46 3.44 1.34 4.94L2 22l5.39-1.41a10.1 10.1 0 0 0 4.65 1.18h.01c5.46 0 9.89-4.4 9.89-9.83C21.94 6.4 17.5 2 12.04 2zm5.76 13.86c-.24.68-1.4 1.25-1.94 1.33-.5.07-1.12.1-1.81-.11-.41-.13-.94-.31-1.62-.6-2.85-1.23-4.71-4.1-4.85-4.29-.14-.19-1.15-1.53-1.15-2.92 0-1.39.73-2.07 1-2.36.24-.26.64-.38 1.02-.38.12 0 .23 0 .33.01.3.01.45.03.65.5.24.58.82 2 .89 2.15.07.14.12.31.02.5-.09.19-.14.31-.28.48-.14.16-.29.36-.41.48-.14.14-.28.28-.12.55.16.26.71 1.17 1.52 1.9 1.05.93 1.93 1.22 2.2 1.36.28.14.44.12.6-.07.16-.19.69-.8.87-1.08.19-.26.37-.22.62-.13.26.1 1.62.76 1.9.9.28.14.46.21.53.33.07.12.07.68-.17 1.36z"/></svg>
+            Escríbenos por WhatsApp
+          </button>
+        </div>
       </div>
+      <div class="chat" aria-hidden="true">
+        <div class="chat__head"><span class="chat__dot"></span>Medusa · asistente</div>
+        <p class="bubble bubble--out">Hola, quiero información.</p>
+        <p class="bubble bubble--in">¡Hola! Con gusto te ayudo. ¿Sobre qué tema es tu consulta?</p>
+        <p class="bubble bubble--out">Sobre precios y planes.</p>
+        <p class="bubble bubble--in">Perfecto, te cuento las opciones…</p>
+      </div>
+    </section>
 
-      <p class="foot">
-        <span data-i18n="explee.source">Fuente de referencia:</span>
-        <a href="https://explee.com/?twclid=27gjjwwwz0ya7c0fwe2zkcz0t1&_ref=tw-ag353-c777&utm_source=referral&utm_campaign=tw-ag353-c777" target="_blank" rel="noopener noreferrer">explee.com</a>
-        <a class="btn btn--ghost" style="padding:8px 14px;" href="./" data-i18n="explee.back">Volver a Tuk Tuk</a>
-      </p>
-    </article>
+    <section class="features">
+      <article class="feature">
+        <div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <h2>Respuesta inmediata</h2>
+        <p>El asistente atiende a cualquier hora y responde con la información de Medusa.</p>
+      </article>
+      <article class="feature">
+        <div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h10M4 18h7"/></svg></div>
+        <h2>El área correcta</h2>
+        <p>Eliges el tema al escribir y te atiende el área que corresponde, sin vueltas.</p>
+      </article>
+      <article class="feature">
+        <div class="feature__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 20v-1a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v1"/><circle cx="10" cy="8" r="4"/><path d="M21 20v-1a4 4 0 0 0-3-3.9M15 4.1a4 4 0 0 1 0 7.8"/></svg></div>
+        <h2>Personas cuando hace falta</h2>
+        <p>Si tu caso lo necesita, el equipo de Medusa continúa la conversación.</p>
+      </article>
+    </section>
+
+    <footer>
+      © <span id="y"></span> Medusa · Atención con
+      <a href="https://www.refactorii.com/p2l-tenant/p2l-cluster-whatsapp-bot-dashboard" target="_blank" rel="noopener">Nitro Cluster</a>
+    </footer>
   </div>
 
-  <script src="https://unpkg.com/i18next@23.4.6/i18next.min.js"></script>
-  <script src="scripts/locales-embed.js?v=20261007e"></script>
-  <script src="scripts/i18n.js?v=20260817a"></script>
-
-<style>
-.wa-float{position:fixed;right:18px;bottom:18px;z-index:40;width:56px;height:56px;border-radius:50%;background:#25d366;color:#fff;display:grid;place-items:center;text-decoration:none;font:700 13px/1 system-ui,sans-serif;box-shadow:0 8px 16px rgba(0,0,0,.28)}
-.wa-float.is-off{background:#c5c1b8;filter:grayscale(1);opacity:.72;cursor:not-allowed;box-shadow:none}
-</style>
-<a id="p2l-wa-float" class="wa-float is-off" href="#" data-company-id="6af2012e4e6a2e795abdc049" aria-disabled="true" title="Contrata o configura WhatsApp (WABA Meta) para activar este botón" aria-label="WhatsApp">WA</a>
-<script>
-(function(){var el=document.getElementById("p2l-wa-float");if(!el)return;var id=el.getAttribute("data-company-id")||"";el.addEventListener("click",function(ev){if(el.classList.contains("is-off"))ev.preventDefault();});if(!id)return;fetch("https://www.refactorii.com/p2l-tenant/api/p2l-techguard-whatsapp-bot/public/company/"+encodeURIComponent(id)+"/channels").then(function(r){return r.ok?r.json():null;}).then(function(data){if(!data||!data.whatsapp||!data.waLink)return;el.classList.remove("is-off");el.setAttribute("href",data.waLink);el.setAttribute("target","_blank");el.setAttribute("rel","noopener noreferrer");el.removeAttribute("aria-disabled");el.removeAttribute("title");}).catch(function(){});})();
-</script>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  <!-- Botón flotante de WhatsApp del cluster: número, marca y áreas salen del panel (data-company). -->
+  <script src="https://www.refactorii.com/p2l-wa.js" defer
+    data-company="6af2012e4e6a2e795abdc049"
+    data-brand="Medusa"
+    data-context="landing Medusa"
+    data-title="Medusa"
+    data-accent="#25d366"></script>
 </body>
 </html>
